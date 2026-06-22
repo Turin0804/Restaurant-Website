@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Menu | Foodies Restaurant</title>
+    <meta name="description" content="Explore the full Foodies menu — fresh sandwiches, gourmet burgers, artisan toast, and much more made from the finest ingredients.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* ── Variables ── */
+        :root {
+            --primary:   #A82C48;
+            --secondary: #43121d;
+            --accent:    #f98169;
+            --white:     #fff;
+            --text:      #555;
+            --light-bg:  #fdf7f8;
+            --card-bg:   #fff;
+            --border:    #f3e0e4;
+            --font-main: 'Roboto', sans-serif;
+            --font-alt:  'Quicksand', sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :active, :hover, :focus { outline: 0 !important; }
+        a, a:hover { text-decoration: none; }
+        a:hover { color: var(--primary) !important; }
+        ul { list-style: none; }
+
+        html { scroll-behavior: smooth; }
+
+        body { font-family: var(--font-main); background: var(--light-bg); }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+
+        /* ── Typography ── */
+        h1 { font-size: 3.2rem; font-weight: 900; color: var(--secondary); }
+        h2 { font-size: 2.4rem; font-weight: 700; color: var(--secondary); font-family: var(--font-alt); line-height: 3rem; text-transform: capitalize; }
+        h4 { color: var(--secondary); font-family: var(--font-alt); font-size: 1.1rem; font-weight: 800; text-transform: capitalize; }
+        p  { font-size: 0.97rem; color: var(--text); line-height: 1.75rem; letter-spacing: .5px; }
+
+        /* ── Buttons ── */
+        .main-btn {
+            display: inline-block;
+            padding: .6rem 1.8rem;
+            background: var(--primary);
+            border: .18rem solid var(--primary);
+            color: var(--white);
+            font-size: .95rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            box-shadow: 0 2px 10px -1px rgba(0,0,0,.18);
+            transition: all .35s ease;
+            cursor: pointer;
+        }
+        .main-btn:hover { background: transparent; color: var(--primary); }
+
+        .outline-btn {
+            display: inline-block;
+            padding: .55rem 1.6rem;
+            background: transparent;
+            border: .18rem solid var(--primary);
+            color: var(--primary);
+            font-size: .9rem;
+            font-weight: 600;
+            transition: all .35s ease;
+            cursor: pointer;
+        }
+        .outline-btn:hover { background: var(--primary); color: var(--white); }
+
+        /* ── Navbar ── */
+        .navigation-wrap {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: var(--white);
+            box-shadow: 0 2px 28px rgba(0,0,0,.08);
+            z-index: 1000;
+            transition: all .3s ease;
+        }
+        .navigation-wrap .nav-item { padding: 0 .6rem; }
+        .nav-link { font-size: .92rem; font-weight: 600; color: var(--primary); letter-spacing: 1px; text-transform: capitalize; }
+        .nav-link.active { color: var(--secondary) !important; }
+        .navbar-toggler:focus { box-shadow: none; border: none; }
+        .navigation-wrap .main-btn { padding: .3rem 1.4rem; box-shadow: none; margin-left: .6rem; }
+
+        /* ── Hero ── */
+        .food-hero {
+            padding: 10rem 0 5rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 55%, var(--accent) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .food-hero::before {
+            content: '';
+            position: absolute; top: -80px; right: -80px;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.05);
+        }
+        .food-hero::after {
+            content: '';
+            position: absolute; bottom: -120px; left: -60px;
+            width: 380px; height: 380px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.04);
+        }
+        .food-hero h1 { color: var(--white); margin-bottom: .75rem; }
+        .food-hero p  { color: rgba(255,255,255,.85); font-size: 1.05rem; max-width: 520px; }
+        .breadcrumb-bar a    { color: rgba(255,255,255,.7); font-size: .9rem; font-weight: 500; }
+        .breadcrumb-bar a:hover { color: var(--white) !important; }
+        .breadcrumb-bar span { color: rgba(255,255,255,.45); margin: 0 .45rem; }
+        .breadcrumb-bar .cur { color: var(--white); font-weight: 700; font-size: .9rem; }
+
+        /* ── Section Label ── */
+        .sec-label {
+            display: inline-block;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: .82rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: .6rem;
+        }
+
+        /* ── Filter Tabs ── */
+        .filter-wrap { padding: 3.5rem 0 1rem; }
+        .filter-tabs { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
+        .filter-btn {
+            padding: .5rem 1.5rem;
+            border: .18rem solid var(--border);
+            background: var(--white);
+            color: var(--text);
+            font-weight: 600;
+            font-size: .88rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all .3s ease;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--white);
+        }
+
+        /* ── Food Grid ── */
+        .food-grid-section { padding-bottom: 5rem; }
+
+        .food-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,.07);
+            transition: all .35s ease;
+            height: 100%;
+            position: relative;
+        }
+        .food-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(168,44,72,.15);
+        }
+
+        /* Badge */
+        .food-badge {
+            position: absolute;
+            top: 1rem; left: 1rem;
+            padding: .25rem .8rem;
+            border-radius: 50px;
+            font-size: .75rem;
+            font-weight: 700;
+            z-index: 2;
+        }
+        .badge-popular  { background: var(--primary); color: var(--white); }
+        .badge-new      { background: #27ae60; color: var(--white); }
+        .badge-veg      { background: #2ecc71; color: var(--white); }
+        .badge-special  { background: var(--accent); color: var(--white); }
+
+        .food-card .img-wrap {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            background: #f9dde3;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .food-card .img-wrap img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
+        }
+        .food-card:hover .img-wrap img { transform: scale(1.07); }
+
+        /* emoji fallback when no image */
+        .food-card .emoji-thumb {
+            font-size: 5rem;
+            line-height: 1;
+        }
+
+        .food-card .card-body { padding: 1.4rem 1.5rem 1.6rem; }
+        .food-card .card-body h4 { margin-bottom: .3rem; }
+        .food-card .card-body .meta {
+            font-size: .82rem; color: #aaa; font-weight: 500; margin-bottom: .7rem;
+        }
+        .food-card .card-body .meta i { color: var(--primary); margin-right: .3rem; }
+        .food-card .card-body p { font-size: .88rem; line-height: 1.55rem; margin-bottom: 1rem; }
+
+        .price-row { display: flex; align-items: center; justify-content: space-between; }
+        .price-row .price {
+            font-size: 1.35rem; font-weight: 900;
+            color: var(--primary);
+        }
+        .price-row .price del { color: #ccc; font-size: 1rem; font-weight: 400; margin-left: .4rem; }
+        .price-row .add-btn {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: var(--primary); border: none; color: var(--white);
+            font-size: 1.4rem; line-height: 1;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all .3s ease;
+        }
+        .price-row .add-btn:hover { background: var(--secondary); transform: rotate(90deg); }
+
+        /* Stars */
+        .stars { color: #f0c040; font-size: .85rem; margin-bottom: .5rem; }
+
+        /* ── Special Banner ── */
+        .special-banner {
+            background: linear-gradient(120deg, var(--secondary), var(--primary));
+            padding: 4.5rem 0;
+            text-align: center;
+        }
+        .special-banner h2 { color: var(--white); margin-bottom: 1rem; }
+        .special-banner p  { color: rgba(255,255,255,.85); max-width: 580px; margin: 0 auto 2rem; }
+
+        /* ── Newsletter ── */
+        .food-newsletter {
+            background: var(--white);
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .food-newsletter h2 { margin-bottom: .75rem; }
+        .food-newsletter p  { max-width: 520px; margin: 0 auto 2rem; }
+        .nl-form { display: flex; max-width: 520px; margin: 0 auto; gap: .75rem; }
+        .nl-form input {
+            flex: 1; padding: .7rem 1.25rem;
+            border: .18rem solid var(--border);
+            font-size: .95rem; color: var(--text);
+            border-radius: 4px;
+        }
+        .nl-form input:focus { border-color: var(--primary); outline: none; }
+
+        /* ── Footer ── */
+        .footer { background: var(--primary); }
+        .footer .footer-link { font-size: 1rem; color: var(--white); padding: 0 1.875rem; }
+        .footer .footer-link:hover { color: var(--white) !important; }
+        .footer-social { margin-top: 2rem; }
+        .footer a i { font-size: 1.5rem; color: var(--white); padding: 0 1rem; }
+
+        /* ── Animations ── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeInUp .7s ease both; }
+        .d1 { animation-delay: .1s; }
+        .d2 { animation-delay: .22s; }
+        .d3 { animation-delay: .34s; }
+
+        /* ── Responsive ── */
+        @media (max-width: 767px) {
+            .food-hero h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            .nl-form { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===========================
+     NAVBAR
+=========================== -->
+<header>
+    <nav class="navbar navbar-expand-lg navigation-wrap">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/logo.png" alt="Foodies Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navFood" aria-controls="navFood" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <i class="fas fa-stream"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navFood">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="food.html">Explore Food</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#testimonial">Reviews</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#faq">FAQ</a></li>
+                    <li><button class="main-btn">+977 9845667543</button></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- ===========================
+     HERO
+=========================== -->
+<section id="food-hero">
+    <div class="food-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 fade-up d1">
+                    <h1>Our Full Menu</h1>
+                    <p>Handcrafted with fresh, locally sourced ingredients — browse every dish we lovingly prepare each day.</p>
+                    <div class="breadcrumb-bar mt-3">
+                        <a href="index.html">Home</a>
+                        <span>/</span>
+                        <span class="cur">Explore Food</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===========================
+     FILTER TABS
+=========================== -->
+<section id="filter">
+    <div class="container filter-wrap">
+        <div class="text-center mb-2">
+            <span class="sec-label">Browse by Category</span>
+        </div>
+        <div class="filter-tabs" id="filterTabs">
+            <button class="filter-btn active" data-filter="all"    id="btn-all">All Items</button>
+            <button class="filter-btn"         data-filter="sandwich" id="btn-sandwich">🥪 Sandwiches</button>
+            <button class="filter-btn"         data-filter="burger"   id="btn-burger">🍔 Burgers</button>
+            <button class="filter-btn"         data-filter="toast"    id="btn-toast">🍞 Toast & Brunch</button>
+            <button class="filter-btn"         data-filter="salad"    id="btn-salad">🥗 Salads</button>
+            <button class="filter-btn"         data-filter="dessert"  id="btn-dessert">🍰 Desserts</button>
+            <button class="filter-btn"         data-filter="drinks"   id="btn-drinks">🥤 Drinks</button>
+        </div>
+    </div>
+</section>
+
+<!-- ===========================
+     FOOD GRID
+=========================== -->
+<section id="food-grid">
+    <div class="container food-grid-section">
+        <div class="row gy-4" id="foodGrid">
+
+            <!-- Card 1 -->
+            <div class="col-lg-4 col-md-6 food-item" data-cat="sandwich">
+                <div class="food-card">
+                    <span class="food-badge badge-popular">⭐ Popular</span>
+                    <div class="img-wrap">
+                        <img src="images/img/img-3.jpg" alt="Rainbow Vegetables Sandwich" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="emoji-thumb" style="display:none;">🥪</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="stars">★★★★★</div>
+                        <h4>Rainbow Vegetables Sandwich</h4>
+                        <div class="meta"><i class="fas fa-clock"></i>20–25 min &nbsp;|&nbsp; <i class="fas fa-user"></i> Serves 1</div>
+                        <p>Layered with roasted rainbow vegetables, hummus spread, and fresh greens on artisan sourdough.</p>
+                        <div class="price-row">
+                            <span class="price">$10.59 <del>$11.70</del></span>
+                            <button class="add-btn" id="add-sandwich-1" aria-label="Add Rainbow Vegetables Sandwich to cart">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-lg-4 col-md-6 food-item" data-cat="burger">
+                <div class="food-card">
+                    <span class="food-badge badge-veg">🌿 Veg</span>
+                    <div class="img-wrap">
+                        <img src="images/img/img-4.jpg" alt="Vegetarian Burger" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="emoji-thumb" style="display:none;">🍔</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="stars">★★★★☆</div>
+                        <h4>Vegetarian Burger</h4>
+                        <div class="meta"><i class="fas fa-clock"></i>20–25 min &nbsp;|&nbsp; <i class="fas fa-user"></i> Serves 1</div>
+                        <p>A hearty black bean patty with caramelised onions, pickles and our house chipotle sauce.</p>
+                        <div class="price-row">
+                            <span class="price">$10.59 <del>$11.70</del></span>
+                            <button class="add-btn" id="add-burger-1" aria-label="Add Vegetarian Burger to cart">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-lg-4 col-md-6 food-item" data-cat="toast">
+                <div class="food-card">
+                    <span class="food-badge badge-new">✨ New</span>
+                    <div class="img-wrap">
+                        <img src="images/img/img-5.jpg" alt="Raspberry French Toast" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="emoji-thumb" style="display:none;">🍞</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="stars">★★★★★</div>
+                        <h4>Raspberry Stuffed French Toast</h4>
+                        <div class="meta"><i class="fas fa-clock"></i>20–25 min &nbsp;|&nbsp; <i class="fas fa-user"></i> Serves 1</div>
+                        <p>Thick brioche stuffed with raspberry cream, dusted with powdered sugar and a drizzle of maple syrup.</p>
+                        <div class="price-row">
+                            <span class="price">$10.59 <del>$11.70</del></span>
+                            <button class="add-btn" id="add-toast-1" aria-label="Add Raspberry French Toast to cart">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col-lg-4 col-md-6 food-item" data-cat="salad">
+                <div class="food-card">
+                    <span class="food-badge badge-veg">🌿 Veg</span>
+                    <div class="img-wrap">
+                        <div class="emoji-thumb">🥗</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="stars">★★★★☆</div>
+                        <h4>Garden Caesar Salad</h4>
+                        <div class="meta"><i class="fas fa-clock"></i>10–15 min &nbsp;|&nbsp; <i class="fas fa-user"></i> Serves 1–2</div>
+                        <p>Crisp romaine, shaved parmesan, house-made croutons tossed in a classic Caesar dressing.</p>
+                        <div class="price-row">
+                            <span class="price">$8.99 <del>$10.50</del></span>
+                            <button class="add-btn" id="add-salad-1" aria-label="Add Garden Caesar Salad to cart">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="col-lg-4 col-md-6 food-item" data-cat="burger">
+                <div class="food-card">
+                    <span class="food-badge badge-popular">⭐ Popular</span>
+                    <div class="img-wrap">
+                        <div class="emoji-thumb">🍔</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="stars">★★★★★</div>
+                        <h4>Classic Smash Burger</h4>
+                        <div class="meta"><i class="fas fa-clock"></i>15–20 min &nbsp;|&nbsp; <i class="fas fa-user"></i> Serves 1</div>
+                        <p>Double smashed beef patties, American cheese, pickles, mustard and our secret sauce.</p>
+                        <div class="price-row">
+                            <span class="price">$13.49 <del>$15.00</del></span>
+                            <button class="add-btn" id="add-burger-2" aria-label="Add Classic Smash Burger to cart">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="col-lg-4 col-md-6 food-item" data-cat="dessert">
+                <div class="food-card">
+                    <span class="food-badge badge-special">🎉 Chef's Pick</span>
+                    <div class="img-wrap">
+                        <div class="emoji-thumb">🍰</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="stars">★★★★★</div>
+                        <h4>Dark Chocolate Lava Cake</h4>
+                        <div class="meta"><i class="fas fa-clock"></i>15 min &nbsp;|&nbsp; <i class="fas fa-user"></i> Serves 1</div>
+                        <p>Warm chocolate sponge with a molten core, served with a scoop of vanilla bean ice cream.</p>
+                        <div class="price-row">
+                            <span class="price">$7.99 <del>$9.50</del></span>
+                            <button class="add-btn" id="add-dessert-1" aria-label="Add Dark Chocolate Lava Cake to cart">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 7 -->
+            <div class="col-lg-4 col-md-6 food-item" data-cat="sandwich">
+                <div class="food-card">
+                    <div class="img-wrap">
+                        <div class="emoji-thumb">🥙</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="stars">★★★★☆</div>
+                        <h4>Grilled Chicken Club</h4>
+                        <div class="meta"><i class="fas fa-clock"></i>20–25 min &nbsp;|&nbsp; <i class="fas fa-user"></i> Serves 1</div>
+                        <p>Grilled chicken breast, streaky bacon, lettuce, tomato and avocado on toasted ciabatta.</p>
+                        <div class="price-row">
+                            <span class="price">$12.29 <del>$13.50</del></span>
+                            <button class="add-btn" id="add-sandwich-2" aria-label="Add Grilled Chicken Club to cart">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 8 -->
+            <div class="col-lg-4 col-md-6 food-item" data-cat="drinks">
+                <div class="food-card">
+                    <span class="food-badge badge-new">✨ New</span>
+                    <div class="img-wrap">
+                        <div class="emoji-thumb">🍹</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="stars">★★★★★</div>
+                        <h4>Watermelon Mint Cooler</h4>
+                        <div class="meta"><i class="fas fa-clock"></i>5 min &nbsp;|&nbsp; <i class="fas fa-user"></i> Serves 1</div>
+                        <p>Freshly blended watermelon with a hint of mint, a squeeze of lime and a pinch of sea salt.</p>
+                        <div class="price-row">
+                            <span class="price">$4.99 <del>$5.99</del></span>
+                            <button class="add-btn" id="add-drink-1" aria-label="Add Watermelon Mint Cooler to cart">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 9 -->
+            <div class="col-lg-4 col-md-6 food-item" data-cat="toast">
+                <div class="food-card">
+                    <span class="food-badge badge-popular">⭐ Popular</span>
+                    <div class="img-wrap">
+                        <div class="emoji-thumb">🥑</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="stars">★★★★★</div>
+                        <h4>Smashed Avocado Toast</h4>
+                        <div class="meta"><i class="fas fa-clock"></i>10 min &nbsp;|&nbsp; <i class="fas fa-user"></i> Serves 1</div>
+                        <p>Creamy smashed avocado on thick sourdough, topped with poached egg, chilli flakes and microgreens.</p>
+                        <div class="price-row">
+                            <span class="price">$9.49 <del>$11.00</del></span>
+                            <button class="add-btn" id="add-toast-2" aria-label="Add Smashed Avocado Toast to cart">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /row -->
+
+        <!-- Empty state -->
+        <div id="emptyState" class="text-center py-5" style="display:none;">
+            <div style="font-size:4rem;">🍽️</div>
+            <h4 class="mt-3">No items in this category yet</h4>
+            <p>Check back soon — our chefs are always cooking up something new!</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===========================
+     SPECIAL OFFER BANNER
+=========================== -->
+<section id="special-offer">
+    <div class="special-banner">
+        <div class="container">
+            <span class="sec-label" style="color:rgba(255,255,255,.7);">Limited Time</span>
+            <h2>Backed Fresh Daily by Bakers with Passion</h2>
+            <p>Order before noon and get free delivery on your first order. Fresh ingredients, delivered fast.</p>
+            <a href="index.html#newsletter" class="main-btn" style="background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.5); color:#fff;">Get 25% Off — Subscribe</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===========================
+     NEWSLETTER
+=========================== -->
+<section id="newsletter">
+    <div class="food-newsletter">
+        <div class="container">
+            <span class="sec-label">Stay Updated</span>
+            <h2>New dishes every week 🍽️</h2>
+            <p>Subscribe to get notified whenever we add fresh items to our menu.</p>
+            <form class="nl-form" id="nlForm" onsubmit="handleNewsletter(event)">
+                <input type="email" id="nlEmail" placeholder="Enter your email address" required>
+                <button type="submit" class="main-btn">Subscribe</button>
+            </form>
+            <p id="nlMsg" style="color:var(--primary); font-weight:600; margin-top:1rem; display:none;">🎉 Thanks! You're on the list.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===========================
+     FOOTER
+=========================== -->
+<section id="footer">
+    <div class="footer py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a href="index.html" class="footer-link">Home</a>
+                    <a href="about.html" class="footer-link">About</a>
+                    <a href="food.html"  class="footer-link">Menu</a>
+                    <a href="index.html#faq" class="footer-link">FAQ</a>
+                    <div class="footer-social pt--4 text-center">
+                        <a href=""><i class="fab fa-facebook-f"></i></a>
+                        <a href=""><i class="fab fa-twitter"></i></a>
+                        <a href=""><i class="fab fa-youtube"></i></a>
+                        <a href=""><i class="fab fa-dribbble"></i></a>
+                        <a href=""><i class="fa fa-linkedin"></i></a>
+                        <a href=""><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="text-center pt-5">
+                        <p class="text-light">© 2023. Foodies. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Scripts -->
+<script src="https://kit.fontawesome.com/04111552cb.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+<script>
+    /* ── Filter Logic ── */
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const foodItems  = document.querySelectorAll('.food-item');
+    const emptyState = document.getElementById('emptyState');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const cat = btn.dataset.filter;
+            let visible = 0;
+
+            foodItems.forEach(item => {
+                const match = cat === 'all' || item.dataset.cat === cat;
+                item.style.display = match ? 'block' : 'none';
+                if (match) visible++;
+            });
+
+            emptyState.style.display = visible === 0 ? 'block' : 'none';
+        });
+    });
+
+    /* ── Add to Cart Feedback ── */
+    document.querySelectorAll('.add-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const original = this.textContent;
+            this.textContent = '✓';
+            this.style.background = '#27ae60';
+            setTimeout(() => {
+                this.textContent = original;
+                this.style.background = '';
+            }, 1200);
+        });
+    });
+
+    /* ── Newsletter ── */
+    function handleNewsletter(e) {
+        e.preventDefault();
+        document.getElementById('nlMsg').style.display = 'block';
+        document.getElementById('nlEmail').value = '';
+    }
+
+    /* ── Navbar scroll shadow ── */
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('.navigation-wrap');
+        nav.style.boxShadow = window.scrollY > 20
+            ? '0 2px 28px rgba(0,0,0,.12)'
+            : '0 2px 28px rgba(0,0,0,.06)';
+    });
+    </script>
+</body>
+</html>
